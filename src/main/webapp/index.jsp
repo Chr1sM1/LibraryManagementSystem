@@ -46,6 +46,9 @@
             </div>
         </div>
     </div>
+    <div class="layui-form-item" >
+        <a style="padding-left: 200px;color: #2D93CA" href="register.jsp" >没有账号？立即注册</a>
+    </div>
 </form>
 <script src="./layui/layui.js"></script>
 </body>
