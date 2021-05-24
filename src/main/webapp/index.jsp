@@ -20,14 +20,16 @@
 </head>
 <body>
 
-<form class="layui-form layui-layout layui-layout-login" action="doLogin.jsp" method="post">
+<%@include file="window.jsp" %>
+
+<form class="layui-form layui-layout layui-layout-login" action="login" method="post">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
         <legend>登录演示</legend>
     </fieldset>
     <div class="layui-form-item">
         <label class="layui-form-label">账号</label>
         <div class="layui-input-inline">
-            <input type="text" name="account" required lay-verify="required" placeholder="请输入账号"
+            <input type="text" name="username" required lay-verify="required" placeholder="请输入账号"
                    autocomplete="off" class="layui-input">
         </div>
     </div>
