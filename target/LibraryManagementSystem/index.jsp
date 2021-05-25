@@ -22,7 +22,7 @@
 
 <%@include file="window.jsp" %>
 
-<form class="layui-form layui-layout layui-layout-login" action="${pageContext.request.contextPath}/login" method="post">
+<form class="layui-form layui-layout layui-layout-login" action="login" method="post">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
         <legend>登录演示</legend>
     </fieldset>
