@@ -41,6 +41,17 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">用户权限</label>
+            <div class="layui-input-block">
+                <input type="radio" name="role" value="0"
+                       title="管理员">
+                <input type="radio" name="role" value="1"
+                       title="用户" checked>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-input-block">
             <div class="layui-btn-group">
                 <button class="layui-btn" lay-submit lay-filter="formDemo">立即登录</button>
@@ -52,6 +63,15 @@
         <a style="padding-left: 200px;color: #2D93CA" href="register.jsp" >没有账号？立即注册</a>
     </div>
 </form>
-<script src="./layui/layui.js"></script>
+
+<script src="/layui/layui.js"></script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //各种基于事件的操作，下面会有进一步介绍
+    });
+</script>
+
 </body>
 </html>
