@@ -1,5 +1,6 @@
 package com.sizhe.javaweb.service;
 
+import com.sizhe.javaweb.bean.Admin;
 import com.sizhe.javaweb.bean.User;
 import com.sizhe.javaweb.dao.LoginDao;
 
@@ -23,6 +24,22 @@ public class LoginService {
         } else {
             if (password.equals(user.getPassword())) {
                 session.setAttribute("user", user);
+                session.setAttribute("isLogin", true);
+                return "1";
+            } else {
+                return "密码错误";
+            }
+        }
+    }
+
+    public String adminLogin(String username, String password,
+                             HttpSession session) {
+        Admin admin = loginDao.selectOne(username, password);
+        if (admin == null) {
+            return "用户不存在";
+        } else {
+            if (password.equals(admin.getPassword())) {
+                session.setAttribute("admin", admin);
                 session.setAttribute("isLogin", true);
                 return "1";
             } else {

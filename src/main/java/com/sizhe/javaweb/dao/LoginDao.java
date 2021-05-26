@@ -1,5 +1,6 @@
 package com.sizhe.javaweb.dao;
 
+import com.sizhe.javaweb.bean.Admin;
 import com.sizhe.javaweb.bean.User;
 import com.sizhe.javaweb.utils.JDBCUtil;
 
@@ -33,5 +34,24 @@ public class LoginDao {
         }
 
         return user;
+    }
+    public Admin selectOne(String username, String password) {
+        Admin admin = null;
+        try (ResultSet resultSet =
+                     JDBCUtil.getInstance().executeQueryRS("select " +
+                                     "* " +
+                                     "from " +
+                                     "admin where username=?",
+                             new Object[]{username})) {
+
+            while (resultSet.next()) {
+                admin = new Admin(resultSet.getString("username"),
+                        resultSet.getString("password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return admin;
     }
 }
