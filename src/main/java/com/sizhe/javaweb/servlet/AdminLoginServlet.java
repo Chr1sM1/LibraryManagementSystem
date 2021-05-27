@@ -1,6 +1,6 @@
 package com.sizhe.javaweb.servlet;
 
-import com.sizhe.javaweb.service.LoginService;
+import com.sizhe.javaweb.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet(name = "AdminLoginServlet",urlPatterns = "/admin/login")
 public class AdminLoginServlet extends HttpServlet {
 
-    private LoginService loginService = new LoginService();
+    private UserService userService = new UserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +34,7 @@ public class AdminLoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        String result = loginService.adminLogin(username, password, req.getSession());
+        String result = userService.adminLogin(username, password, req.getSession());
         if ("1".equals(result)) {
             resp.sendRedirect("/admin/main.jsp");
         } else {
