@@ -24,7 +24,7 @@
 
 <form class="layui-form layui-layout layui-layout-login" action="login" method="post">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>登录演示</legend>
+        <legend>图书馆</legend>
     </fieldset>
     <div class="layui-form-item">
         <label class="layui-form-label">账号</label>
