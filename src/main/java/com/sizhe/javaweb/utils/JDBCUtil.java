@@ -21,14 +21,13 @@ import java.util.Map;
 
 /**
  * 对jdbc的完整封装
- *
  */
 public class JDBCUtil {
 
-    private static  String driver = "com.mysql.cj.jdbc.Driver";
-    private static  String url = "jdbc:mysql://127.0.0.1:3306/library?serverTimezone=UTC&characterEncoding=UTF-8&useUnicode=true";
-    private static  String username = "root";
-    private static  String password = "123456";
+    private static String driver = "com.mysql.cj.jdbc.Driver";
+    private static String url = "jdbc:mysql://127.0.0.1:3306/library?serverTimezone=UTC&characterEncoding=UTF-8&useUnicode=true";
+    private static String username = "root";
+    private static String password = "123456";
     private static JDBCUtil instance = null;
 
     private CallableStatement callableStatement = null;//创建CallableStatement对象
@@ -36,25 +35,8 @@ public class JDBCUtil {
     private PreparedStatement pst = null;
     private ResultSet rst = null;
 
-/*	static {
-        try {
-            // 加载数据库驱动程序
-            Class.forName(driver);
-        } catch (ClassNotFoundException e) {
-            System.out.println("加载驱动错误");
-            System.out.println(e.getMessage());
-        }
-    } */
-
-//  public JDBCUtil(String driver,String url ,String username,String password) {
-//    this.driver = driver;
-//    this.url = url;
-//    this.username = username;
-//    this.password = password;
-//  }
-
-    public static JDBCUtil getInstance(){
-        if (instance==null){
+    public static JDBCUtil getInstance() {
+        if (instance == null) {
             return new JDBCUtil();
         }
         return instance;
@@ -62,6 +44,7 @@ public class JDBCUtil {
 
     /**
      * 建立数据库连接
+     *
      * @return 数据库连接
      */
     public Connection getConnection() {
@@ -85,7 +68,8 @@ public class JDBCUtil {
 
     /**
      * insert update delete SQL语句的执行的统一方法
-     * @param sql SQL语句
+     *
+     * @param sql    SQL语句
      * @param params 参数数组，若没有参数则为null
      * @return 受影响的行数
      */
@@ -122,7 +106,8 @@ public class JDBCUtil {
 
     /**
      * SQL 查询将查询结果直接放入ResultSet中
-     * @param sql SQL语句
+     *
+     * @param sql    SQL语句
      * @param params 参数数组，若没有参数则为null
      * @return 结果集
      */
@@ -153,7 +138,8 @@ public class JDBCUtil {
 
     /**
      * SQL 查询将查询结果：一行一列
-     * @param sql SQL语句
+     *
+     * @param sql    SQL语句
      * @param params 参数数组，若没有参数则为null
      * @return 结果集
      */
@@ -176,7 +162,7 @@ public class JDBCUtil {
             // 执行
             rst = pst.executeQuery();
 
-            if(rst.next()) {
+            if (rst.next()) {
                 object = rst.getObject(1);
             }
 
@@ -192,10 +178,10 @@ public class JDBCUtil {
     /**
      * 获取结果集，并将结果放在List中
      *
-     * @param sql  SQL语句
-     *         params  参数，没有则为null
+     * @param sql SQL语句
+     *            params  参数，没有则为null
      * @return List
-     *                       结果集
+     * 结果集
      */
     public List<Object> excuteQuery(String sql, Object[] params) {
         // 执行SQL获得结果集
@@ -239,13 +225,14 @@ public class JDBCUtil {
 
     /**
      * 存储过程带有一个输出参数的方法
-     * @param sql 存储过程语句
-     * @param params 参数数组
+     *
+     * @param sql         存储过程语句
+     * @param params      参数数组
      * @param outParamPos 输出参数位置
-     * @param SqlType 输出参数类型
+     * @param SqlType     输出参数类型
      * @return 输出参数的值
      */
-    public Object excuteQuery(String sql, Object[] params,int outParamPos, int SqlType) {
+    public Object excuteQuery(String sql, Object[] params, int outParamPos, int SqlType) {
         Object object = null;
         conn = this.getConnection();
         try {
@@ -254,8 +241,8 @@ public class JDBCUtil {
             callableStatement = conn.prepareCall(sql);
 
             // 给参数赋值
-            if(params != null) {
-                for(int i = 0; i < params.length; i++) {
+            if (params != null) {
+                for (int i = 0; i < params.length; i++) {
                     callableStatement.setObject(i + 1, params[i]);
                 }
             }
