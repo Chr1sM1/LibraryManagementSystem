@@ -39,9 +39,9 @@
 <body>
 
 <div class="layui-nav-item demoTable" style="display: flex;justify-content: flex-end;">
-    <input type="text" class="layui-input"
+    <input id="keyword" type="text" class="layui-input"
            style="padding: 0;display: inline;width: 300px;" placeholder="请输入搜索信息..."/>
-    <button class="layui-btn" data-type="getCheckLength"
+    <button id="search" class="layui-btn" data-type="getCheckLength"
             style="margin-left: 20px;">搜索
     </button>
 </div>
@@ -75,10 +75,17 @@
                     <div class="wrap-div">${book.description}</div>
                 </td>
                 <td>
-                    <a class="layui-btn layui-btn-primary layui-btn-xs"
-                       lay-event="detail">查看</a>
-                    <a class="layui-btn layui-btn-xs"
-                       lay-event="edit">借阅</a>
+                    <button
+                            class="layui-btn layui-btn-primary layui-btn-xs detail"
+                            id="info" index="${status.index}">查看
+                    </button>
+                    <button class="layui-btn layui-btn-xs borrow"
+                            id="borrow" index="${status.index}">借阅
+                    </button>
+                    <button class="layui-btn layui-btn-xs borrow"
+                            id="store" index="${book.id}">
+                            ${book.store?"已收藏":"收藏"}
+                    </button>
                 </td>
             </tr>
         </c:forEach>
@@ -91,11 +98,43 @@
 <script src="./layui/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
-    layui.use(['laypage', 'layer'], function () {
+    layui.use(['laypage', 'layer', 'element'], function () {
         var laypage = layui.laypage
-            , layer = layui.layer;
+            , layer = layui.layer
+            , element = layui.element;
         var $ = layui.$;
-        var count = 0, page = 1, limit = 5;
+        var count = 0, current = 1, limit = 5;
+        $(document).on('click', '#info', function () {
+            var name = $(this).parents("tr").find("td").eq(0).text();
+            layer.msg(name)
+        })
+        $(document).on('click', '#store', function () {
+            var bookid = $(this).attr("index");
+            $.ajax({
+                type: 'POST',
+                url: "/book/store",
+                data: JSON.stringify({
+                    user: ${sessionScope.user.id}+"",
+                    book: bookid
+                }),
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    layer.msg(data)
+                    if (data === '借阅成功') {
+                        $('#store').text("已收藏")
+                    }
+                }
+            });
+        })
+        $(document).on('click', '#borrow', function () {
+            var name = $(this).parents("tr").find("td").eq(0).text();
+            console.log($(this).attr("index"))
+            layer.msg(name)
+        })
+        $('#search').click(function () {
+            var keyword = $('#keyword').val();
+            alert(keyword)
+        });
         $(document).ready(function () {
             //进入页面先加载数据
             getContent(1, limit);
@@ -103,15 +142,14 @@
             laypage.render({
                 elem: 'page',
                 count: count,
-                curr: page,
+                curr: current,
                 limits: [5, 10, 15, 20],
                 limit: limit,
                 layout: ['count', 'prev', 'page', 'next', 'limit'],
                 jump: function (obj, first) {
                     if (!first) {
                         getContent(obj.curr, obj.limit);
-                        //更新当前页码和当前每页显示条数
-                        page = obj.curr;
+                        current = obj.curr;
                         limit = obj.limit;
                     }
                 }

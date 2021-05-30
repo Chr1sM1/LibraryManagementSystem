@@ -2,6 +2,7 @@ package com.sizhe.javaweb.servlet;
 
 import com.alibaba.fastjson.JSON;
 import com.sizhe.javaweb.bean.Book;
+import com.sizhe.javaweb.bean.User;
 import com.sizhe.javaweb.service.BookService;
 import org.apache.commons.io.IOUtils;
 
@@ -11,12 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * @ClassName SeachBookServlet
+ * @ClassName SearchBookServlet
  * @Description TODO
  * @Author Chris
  * @Date 2021/5/28
@@ -37,22 +39,16 @@ public class SearchBooksServlet extends HttpServlet {
                           HttpServletResponse resp) throws ServletException, IOException {
         //1. 取参（req当前的页码, 每页的数量, 搜索）
         String paramJson = IOUtils.toString(
-                req.getInputStream(), "UTF-8");
-        HashMap<String, Object> parseObject =
-                JSON.parseObject(paramJson,
-                        HashMap.class);
+                req.getInputStream(), StandardCharsets.UTF_8);
+        HashMap<String, Object> parseObject = JSON.parseObject(paramJson, HashMap.class);
         String param = (String) parseObject.get("search");
         int pageNum = (int) parseObject.get("pageNum");
         int pageSize = (int) parseObject.get("pageSize");
         List<Book> books = new ArrayList<>();
         int count = 0;
         //2.
-        if (param != null) {
-            //带参数查询
-        } else {
-            //无参查询
-            books = bookService.searchAllBooks(pageNum,
-                    pageSize);
+        if (param == null) {
+            books = bookService.searchAllBooks(String.valueOf(((User)req.getSession().getAttribute("user")).getId()), pageNum, pageSize);
         }
 
         count = bookService.countNum();
