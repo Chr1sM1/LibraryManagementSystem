@@ -25,7 +25,7 @@ import java.util.UUID;
 public class PersonalInfoServlet extends HttpServlet {
 
     private UserService userService = new UserService();
-    private final static String HEADER_FILE_DIR = "D:\\dev\\LibraryManagementSystem\\header\\   ";
+    private final static String HEADER_FILE_DIR = "D:\\dev\\LibraryManagementSystem\\header\\";
 
     @Override
     protected void doGet(HttpServletRequest req,
